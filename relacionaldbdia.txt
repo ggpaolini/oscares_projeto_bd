@@ -6,10 +6,10 @@ table FILM
 
 table NOMINATION
 (
-  _ClassName_  --> CATEGORY.ClassName,
   _NomId_,
-  _CeremonyNumber_ --> CEREMONY.CeremonyNumber,
-  _CanonicalCategory_ --> CATEGORY.CanonicalCategory,
+  ClassName  --> CATEGORY.ClassName,
+  CeremonyNumber --> CEREMONY.CeremonyNumber,
+  CategoryName --> CATEGORY.CategoryName,
   NominationName,
   Winner,
   Detail?,
@@ -37,25 +37,19 @@ table NOMINEE
 table CATEGORY
 (
   _ClassName_ --> CLASS.ClassName,
-  _CanonicalCategory_,
-  CategoryName
+  _CategoryName_,
+  CanonicalCategory
 )
 
 table NOMINATION_FILM
 (
-  _ClassName_ --> NOMINATION.ClassName,
   _NomId_ --> NOMINATION.NomId,
-  _CeremonyNumber_ --> NOMINATION.CeremonyNumber,
-  _CanonicalCategory_ --> NOMINATION.CanonicalCategory,
   _FilmId_ --> FILM.FilmId,
   _FilmName_ --> FILM.FilmName
 )
 
 table NOMINATION_NOMINEE
 (
-  _ClassName_ --> NOMINATION.ClassName,
   _NomId_ --> NOMINATION.NomId,
-  _CeremonyNumber_ --> NOMINATION.CeremonyNumber,
-  _CanonicalCategory_ --> NOMINATION.CanonicalCategory,
   _NomineeId_ --> NOMINEE.NomineeId
 )

@@ -1,0 +1,46 @@
+// é preciso editar para meter o occurs fraca
+CATEGORY == << MAKES >> NOMINATION
+(
+    _ NomId _,
+    NominationName,
+    Winner,
+    Detail ?,
+    Note ?,
+    Citation ?,
+    NomineeOrg?
+)  
+
+NOMINEE
+(
+    _ NomineeId _,
+    Name,
+    NameShortForm
+)
+
+
+FILM
+(
+    _ FilmId _,
+    _ FilmName _
+)
+
+CLASS --- << BELONG >> CATEGORY
+(
+    _CategoryName_,
+    CanonicalCategoty
+)
+
+CLASS
+(
+    _ ClassName _
+)
+
+CEREMONY
+(
+    _ CeremonyNumber _,
+    Year
+)
+
+NOMINATION - N - < ASSOCIATED > = N = FILM
+NOMINATION - N - < NOMINATES > = N = NOMINEE
+CEREMONY =1== < OCCURS > ==N==  NOMINATION

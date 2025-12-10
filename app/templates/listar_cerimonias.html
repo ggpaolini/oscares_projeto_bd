@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Cerimónias</h1>
+<table>
+    <tr>
+        <th><b>Número</b></th>
+        <th><b>Ano</b></th>
+    </tr>
+    {% for cerimonia in cerimonias %}
+    <tr>
+        <td>{{cerimonia.CeremonyNumber}}</td>
+        <td>{{cerimonia.Year}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

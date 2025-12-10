@@ -7,17 +7,17 @@ create table FILM
 
 create table NOMINATION
 (
+  NomId TEXT ,
   ClassName TEXT,
-  NomId TEXT,
   CeremonyNumber INTEGER,
-  CanonicalCategory TEXT,
+  CategoryName TEXT,
   NominationName TEXT,
   Winner TEXT,
   Detail TEXT,
   Note TEXT,
   Citation TEXT,
-  primary key (ClassName, NomId, CeremonyNumber, CanonicalCategory),
-  foreign key (ClassName, CanonicalCategory) references CATEGORY(ClassName, CanonicalCategory),
+  PRIMARY KEY (NomId),
+  foreign key (ClassName, CategoryName) references CATEGORY(ClassName, CategoryName),
   foreign key (CeremonyNumber) references CEREMONY(CeremonyNumber)
 );
 
@@ -41,35 +41,29 @@ create table NOMINEE
 create table CATEGORY
 (
   ClassName TEXT,
-  CanonicalCategory TEXT,
   CategoryName TEXT,
-  primary key (ClassName, CanonicalCategory),
+  CanonicalCategory,
+  primary key (ClassName, CategoryName),
   FOREIGN KEY(ClassName) REFERENCES CLASS(ClassName)
 );
 
 create table NOMINATION_FILM
 (
-  ClassName TEXT,
-  CanonicalCategory TEXT,
-  CeremonyNumber INTEGER,
   NomId TEXT,
   FilmId TEXT,
   FilmName TEXT,
-  PRIMARY KEY(ClassName, NomId, CeremonyNumber, CanonicalCategory, FilmId, FilmName),
-  FOREIGN KEY(ClassName, NomId, CeremonyNumber, CanonicalCategory)
-    REFERENCES NOMINATION(ClassName, NomId, CeremonyNumber, CanonicalCategory),
+  PRIMARY KEY(NomId, FilmId, FilmName),
+  FOREIGN KEY(NomId)
+    REFERENCES NOMINATION(NomId),
   FOREIGN KEY(FilmId, FilmName) references FILM(FilmId, FilmName)
 );
 
 create table NOMINATION_NOMINEE
 (
-  ClassName TEXT,
-  CanonicalCategory TEXT,
-  CeremonyNumber INTEGER,
   NomId TEXT,
   NomineeId TEXT,
-  PRIMARY KEY(ClassName, NomId, CeremonyNumber, CanonicalCategory, NomineeId),
-  FOREIGN KEY(ClassName, NomId, CeremonyNumber, CanonicalCategory)
-    REFERENCES NOMINATION(ClassName, NomId, CeremonyNumber, CanonicalCategory),
+  PRIMARY KEY(NomId, NomineeId),
+  FOREIGN KEY(NomId)
+    REFERENCES NOMINATION(NomId),
   FOREIGN KEY(NomineeId) references NOMINEE(NomineeId)
 );
