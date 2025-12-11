@@ -8,11 +8,12 @@
     </tr>
     {% for cerimonia in cerimonias %}
     <tr>
-        <td>{{cerimonia.CeremonyNumber}}</td>
+        <td><a href='/cerimonias/{{cerimonia.CeremonyNumber}}/'>{{cerimonia.CeremonyNumber}}</a></td>
         <td>{{cerimonia.Year}}</td>
     </tr>
     {% endfor %}
 </table>
+
 
 
 {% endblock %}

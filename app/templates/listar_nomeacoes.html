@@ -4,8 +4,8 @@
 
 <table>
     <tr>
-        <th><b>Classe</b></th>
         <th><b>ID</b></th>
+        <th><b>Classe</b></th>
         <th><b>Cerimónia</b></th>
         <th><b>Categoria</b></th>
         <th><b>Nome da Nomeação</b></th>
@@ -17,10 +17,10 @@
 
     {% for nom in nomeacoes %}
     <tr>
-        <td>{{ nom.ClassName }}</td>
-        <td>{{ nom.NomId }}</td>
-        <td>{{ nom.CeremonyNumber }}</td>
-        <td>{{ nom.CanonicalCategory }}</td>
+        <td><a href='/nomeacoes/{{nom.NomId}}/'>{{ nom.NomId }}</a></td>
+        <td><a href='/classes/{{nom.ClassName}}'>{{ nom.ClassName }}</a></td>
+        <td><a href='/cerimonias/{{nom.CeremonyNumber}}/'>{{ nom.CeremonyNumber }}</a></td>
+        <td><a href='/categorias/{{nom.CategoryName}}/'>{{ nom.CategoryName }}</a></td>
         <td>{{ nom.NominationName }}</td>
         <td>{{ nom.Winner }}</td>
         <td>{{ nom.Detail }}</td>
@@ -30,4 +30,6 @@
     {% endfor %}
 </table>
 
+
 {% endblock %}
+

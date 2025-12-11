@@ -8,7 +8,7 @@
     </tr>
     {% for f in filmes %}
     <tr>
-        <td>{{ f.FilmId }}</td>
+        <td><a href='/filmes/{{f.FilmId}}_{{f.FilmName}}'>{{ f.FilmId }}</a></td>
         <td>{{ f.FilmName }}</td>
     </tr>
     {% endfor %}

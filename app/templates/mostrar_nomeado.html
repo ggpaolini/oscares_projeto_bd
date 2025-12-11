@@ -10,8 +10,8 @@
 <h1> Nomeações </h1>
 <table>
     <tr>
-        <th><b>Classe</b></th>
         <th><b>ID</b></th>
+        <th><b>Classe</b></th>
         <th><b>Cerimónia</b></th>
         <th><b>Categoria</b></th>
         <th><b>Nome da Nomeação</b></th>
@@ -23,10 +23,10 @@
 
     {% for nom in nomeacoes %}
     <tr>
-        <td>{{ nom.ClassName }}</td>
-        <td>{{ nom.NomId }}</td>
-        <td>{{ nom.CeremonyNumber }}</td>
-        <td>{{ nom.CategoryName }}</td>
+        <td><a href='/nomeacoes/{{nom.NomId}}/'>{{ nom.NomId }}</a></td>
+        <td><a href='/classes/{{nom.ClassName}}'>{{ nom.ClassName }}</a></td>
+        <td><a href='/cerimonias/{{nom.CeremonyNumber}}/'>{{ nom.CeremonyNumber }}</a></td>
+        <td><a href='/categorias/{{nom.CategoryName}}/'>{{ nom.CategoryName }}</a></td>
         <td>{{ nom.NominationName }}</td>
         <td>{{ nom.Winner }}</td>
         <td>{{ nom.Detail }}</td>
@@ -39,17 +39,15 @@
 <h1> Filmes </h1>
 <table>
     <tr>
-        <th><b>Nome</b></th>
         <th><b>ID</b></th>
+        <th><b>Nome</b></th>
     </tr>
-
-    {% for film in filmes %}
+    {% for f in filmes %}
     <tr>
-        <td>{{ film.FilmId }}</td>
-        <td>{{ film.FilmName }}</td>
+        <td><a href='/filmes/{{f.FilmId}}_{{f.FilmName}}'>{{ f.FilmId }}</a></td>
+        <td>{{ f.FilmName }}</td>
     </tr>
     {% endfor %}
 </table>
-
 
 {% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{filme.FilmName}}</h1></h1>
+<b>
+<h> ID : {{filme.FilmId}}</h>
+<br>
+<h> Filme </h>
+</b>
+
+<h1> Nomeações </h1>
+<table>
+    <tr>
+        <th><b>ID</b></th>
+        <th><b>Classe</b></th>
+        <th><b>Cerimónia</b></th>
+        <th><b>Categoria</b></th>
+        <th><b>Nome da Nomeação</b></th>
+        <th><b>Vencedor</b></th>
+        <th><b>Detalhe</b></th>
+        <th><b>Nota</b></th>
+        <th><b>Citação</b></th>
+    </tr>
+
+    {% for nom in nomeacoes %}
+    <tr>
+        <td><a href='/nomeacoes/{{nom.NomId}}/'>{{ nom.NomId }}</a></td>
+        <td><a href='/classes/{{nom.ClassName}}'>{{ nom.ClassName }}</a></td>
+        <td><a href='/cerimonias/{{nom.CeremonyNumber}}/'>{{ nom.CeremonyNumber }}</a></td>
+        <td><a href='/categorias/{{nom.CategoryName}}/'>{{ nom.CategoryName }}</a></td>
+        <td>{{ nom.NominationName }}</td>
+        <td>{{ nom.Winner }}</td>
+        <td>{{ nom.Detail }}</td>
+        <td>{{ nom.Note }}</td>
+        <td>{{ nom.Citation }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h1> Nomeados Associados </h1>
+<table>
+    <tr>
+        <th><b>ID</b></th>
+        <th><b>Nome</b></th>
+    </tr>
+    {% for n in nomeados %}
+    <tr>
+        <td><a href='/nomeados/{{n.NomineeId}}/'>{{ n.NomineeId }}</a></td>
+        <td>{{ n.Name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

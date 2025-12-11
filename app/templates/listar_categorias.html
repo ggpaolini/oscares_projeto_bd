@@ -5,13 +5,13 @@
     <tr>
         <th><b>Classe</b></th>
         <th><b>Categoria</b></th>
-        <th><b>Nome</b></th>
+        <th><b>Nome Canónico</b></th>
     </tr>
     {% for cat in categorias %}
     <tr>
-        <td>{{ cat.ClassName }}</td>
+        <td><a href='/classes/{{cat.ClassName}}'>{{ cat.ClassName }}</a></td>
+        <td><a href='/categorias/{{cat.CategoryName}}/'>{{ cat.CategoryName}}</a></td>
         <td>{{ cat.CanonicalCategory }}</td>
-        <td>{{ cat.CategoryName}}</td>
     </tr>
     {% endfor %}
 </table>

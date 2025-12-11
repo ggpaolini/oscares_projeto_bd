@@ -8,7 +8,7 @@
     </tr>
     {% for n in nomeados %}
     <tr>
-        <td>{{ n.NomineeId }}</td>
+        <td><a href='/nomeados/{{n.NomineeId}}/'>{{ n.NomineeId }}</a></td>
         <td>{{ n.Name }}</td>
     </tr>
     {% endfor %}

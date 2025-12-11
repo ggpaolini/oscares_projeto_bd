@@ -7,7 +7,7 @@
     </tr>
     {% for c in classes %}
     <tr>
-        <td>{{ c.ClassName }}</td>
+        <td><a href='/classes/{{c.ClassName}}/'>{{ c.ClassName }}</a></td>
     </tr>
     {% endfor %}
 </table>
