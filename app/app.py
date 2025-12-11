@@ -102,12 +102,10 @@ SELECT * FROM NOMINEE ORDER BY Name
 
 @APP.route('/nomeados/<string:id>/')
 def show_nomeado(id):
-    t = id.lower()      # Tentei evitar algumas injeções aqui
-    if any(i in t for i in ("join","--","drop","table")): raise Exception("Nice Try")  #Checking for injections
     nomeado = db.execute(
         f'''
-        SELECT * FROM nominee WHERE NomineeId = '{id}'
-        '''
+        SELECT * FROM nominee WHERE NomineeId =?
+        ''', [id]
         ).fetchone()
     nomeacoes = db.execute(
         f'''
@@ -116,9 +114,9 @@ def show_nomeado(id):
         select nomid from nominee
         natural join nomination_nominee
         natural join nomination
-        where NomineeId= '{id}'
+        where NomineeId=?
         )
-        '''
+        ''', [id]
         ).fetchall()
     filmes = db.execute(
         f'''
@@ -128,9 +126,9 @@ def show_nomeado(id):
         natural join nomination_nominee
         natural join nomination
         natural join nomination_film
-        where NomineeId= '{id}'
+        where NomineeId=?
         )
-        '''
+        ''', [id]
         ).fetchall()
     return render_template('mostrar_nomeado.html', nomeado=nomeado, nomeacoes=nomeacoes, filmes= filmes)
 
