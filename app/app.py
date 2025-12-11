@@ -31,7 +31,7 @@ SELECT * FROM Ceremony ORDER BY CeremonyNumber
     ).fetchall()
     return render_template('listar_cerimonias.html', cerimonias=cerimonias)
 
-@APP.route('/cerimonias/<int:number>')
+@APP.route('/cerimonias/<int:number>/')
 def show_ceremonies(number):
     cerimonia = db.execute(
         '''
