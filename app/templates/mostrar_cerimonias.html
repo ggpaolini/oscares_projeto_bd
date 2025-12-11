@@ -21,7 +21,7 @@
     {% for nom in nomeacoes %}
     <tr>
         <td><a href='/nomeacoes/{{nom.NomId}}/'>{{ nom.NomId }}</a></td>
-        <td><a href='/classes/{{nom.ClassName}}'>{{ nom.ClassName }}</a></td>
+        <td><a href='/classes/{{nom.ClassName}}/'>{{ nom.ClassName }}</a></td>
         <td><a href='/categorias/{{nom.CategoryName}}/'>{{ nom.CategoryName }}</a></td>
         <td>{{ nom.NominationName }}</td>
         <td>{{ nom.Winner }}</td>
@@ -31,5 +31,6 @@
     </tr>
     {% endfor %}
 </table>
+
 
 {% endblock %}
