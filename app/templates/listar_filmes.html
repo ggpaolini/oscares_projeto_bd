@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Filmes</h1>
+<table>
+    <tr>
+        <th><b>ID</b></th>
+        <th><b>Nome</b></th>
+    </tr>
+    {% for f in filmes %}
+    <tr>
+        <td><a href='/filmes/{{f.FilmId}}_{{f.FilmName}}'>{{ f.FilmId }}</a></td>
+        <td>{{ f.FilmName }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

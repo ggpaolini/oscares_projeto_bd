@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Nomeados</h1>
+<table>
+    <tr>
+        <th><b>ID</b></th>
+        <th><b>Nome</b></th>
+    </tr>
+    {% for n in nomeados %}
+    <tr>
+        <td><a href='/nomeados/{{n.NomineeId}}/'>{{ n.NomineeId }}</a></td>
+        <td>{{ n.Name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

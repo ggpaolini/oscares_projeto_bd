@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Óscares: Base de Dados</h1>
+
+<h2>Estatísticas</h2>
+<table>
+  <tr> 
+    <th>Tipo</th>
+    <th>Contagem</th>
+  </tr>
+  <tr>
+    <td>Cerimónias</td>
+    <td>{{stats.n_ceremony}}</td>
+  </tr>
+  <tr>
+    <td>Classes</td>
+    <td>{{stats.n_class}}</td>
+  </tr>
+  <tr>
+    <td>Categorias</td>
+    <td>{{stats.n_category}}</td>
+  </tr>
+  <tr>
+    <td>Nomeações</td>
+    <td>{{stats.n_nomination}}</td>
+  </tr>
+  <tr>
+    <td>Filmes</td>
+    <td>{{stats.n_film}}</td>
+  </tr>
+  <tr>
+    <td>Nomeados</td>
+    <td>{{stats.n_nominee}}</td>
+  </tr>
+</table>
+
+{% endblock %}

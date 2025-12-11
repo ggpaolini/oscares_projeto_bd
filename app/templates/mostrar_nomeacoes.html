@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Nomeação</h1></h1>
+
+<th> ID : {{nomeacao.NomId}}</th><br>
+<th>Win : {{nomeacao.winner}}</th><br>
+<th>Citation : {{nomeacao.citation}}</th><br>
+<br>
+<th>Notes : {{nomeacao.notes}}</th><br>
+
+<br>
+<h1> Nomeados </h1>
+<table>
+    <tr>
+        <th><b>ID</b></th>
+        <th><b>Nome</b></th>
+    </tr>
+    {% for n in nomeados %}
+    <tr>
+        <td><a href='/nomeados/{{n.NomineeId}}/'>{{ n.NomineeId }}</a></td>
+        <td>{{ n.Name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<h1> Filmes </h1>
+<table>
+    <tr>
+        <th><b>ID</b></th>
+        <th><b>Nome</b></th>
+    </tr>
+    {% for f in filmes %}
+    <tr>
+        <td><a href='/filmes/{{f.FilmId}}_{{f.FilmName}}'>{{ f.FilmId }}</a></td>
+        <td>{{ f.FilmName }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
