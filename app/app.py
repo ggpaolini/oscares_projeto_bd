@@ -59,15 +59,15 @@ SELECT * FROM CLASS ORDER BY ClassName
 def show_classes(name):
     classe = db.execute(
         f'''
-        select * from class where classname='{name}'
-        '''
+        select * from class where classname=?
+        ''', [name]
         ).fetchone()
 
     categorias= db.execute(
         f'''
         select * from category
-        where classname = '{name}'
-        '''
+        where classname =?
+        ''',[name]
         ).fetchall()
     return render_template('mostrar_classes.html', classe=classe, categorias=categorias)
 
@@ -107,8 +107,6 @@ SELECT * FROM FILM ORDER BY FilmName
 
 @APP.route('/filmes/<string:id_name>')
 def show_filmes(id_name):
-    t = id_name.lower()      # Tentei evitar algumas injeções aqui
-    if any(i in t for i in ("join","--","drop","table")): raise Exception("Nice Try")  #Checking for injections
     id,name = id_name.split("_")
     name = name.replace("%20"," ").replace("'","''")
     filme = db.execute(
@@ -122,9 +120,9 @@ def show_filmes(id_name):
         (
         select nomid from nominee
         natural join nomination_film
-        WHERE FilmId = '{id}' and FilmName = '{name}'
+        WHERE FilmId =? and FilmName =?
         )
-        '''
+        '''[id, name]
         ).fetchall()
     nomeados = db.execute(
         f'''
