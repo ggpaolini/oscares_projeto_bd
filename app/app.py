@@ -58,13 +58,13 @@ SELECT * FROM CLASS ORDER BY ClassName
 @APP.route('/classes/<string:name>/')
 def show_classes(name):
     classe = db.execute(
-        f'''
+        '''
         select * from class where classname=?
         ''', [name]
         ).fetchone()
 
     categorias= db.execute(
-        f'''
+        '''
         select * from category
         where classname =?
         ''',[name]
@@ -84,12 +84,12 @@ SELECT * FROM CATEGORY ORDER BY ClassName, CanonicalCategory
 def show_categorias(name):
     name = name.replace("%20"," ")
     categoria = db.execute(
-        f'''
+        '''
         SELECT * FROM CATEGORY WHERE CategoryName =?
         ''', [name]
     ).fetchone()
     nomeacoes = db.execute(
-        f'''
+        '''
         SELECT * FROM nomination WHERE CategoryName =?
         ''', [name]
         )
@@ -110,22 +110,22 @@ def show_filmes(id_name):
     id,name = id_name.split("_")
     name = name.replace("%20"," ").replace("'","''")
     filme = db.execute(
-        f'''
+        '''
     SELECT * FROM FILM WHERE FilmId =? and FilmName =?
     ''', [id, name]
     ).fetchone()
     nomeacoes = db.execute(
-        f'''
+        '''
         select * from nomination where NomId in 
         (
         select nomid from nominee
         natural join nomination_film
         WHERE FilmId =? and FilmName =?
         )
-        '''[id, name]
+        ''', [id, name]
         ).fetchall()
     nomeados = db.execute(
-        f'''
+        '''
         select distinct n.* FROM nomination
         natural join nomination_film
         natural join nomination_nominee
@@ -147,12 +147,12 @@ SELECT * FROM NOMINEE ORDER BY Name
 @APP.route('/nomeados/<string:id>/')
 def show_nomeado(id):
     nomeado = db.execute(
-        f'''
+        '''
         SELECT * FROM nominee WHERE NomineeId =?
         ''', [id]
         ).fetchone()
     nomeacoes = db.execute(
-        f'''
+        '''
         select * from nomination where NomId in 
         (
         select nomid from nominee
@@ -163,7 +163,7 @@ def show_nomeado(id):
         ''', [id]
         ).fetchall()
     filmes = db.execute(
-        f'''
+        '''
         select * from film where (FilmId, FilmName) in 
         (
         select filmid, filmname from nominee
