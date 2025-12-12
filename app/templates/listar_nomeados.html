@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Nomeados</h1>
+
+<a href='{{bref0}}'><button>{{button0}}</button></a>
+<a href='{{bref1}}'><button>{{button1}}</button></a>
+<br><br>
+<h>{{Text0}}</h>
 <table>
     <tr>
         <th><b>ID</b></th>
@@ -13,4 +18,5 @@
     </tr>
     {% endfor %}
 </table>
+
 {% endblock %}
