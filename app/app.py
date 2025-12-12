@@ -82,7 +82,6 @@ SELECT * FROM CATEGORY ORDER BY ClassName, CanonicalCategory
 
 @APP.route('/categorias/<string:name>/')
 def show_categorias(name):
-    name = name.replace("%20"," ")
     categoria = db.execute(
         '''
         SELECT * FROM CATEGORY WHERE CategoryName =?
@@ -105,10 +104,26 @@ SELECT * FROM FILM ORDER BY FilmName
     ).fetchall()
     return render_template('listar_filmes.html', filmes=filmes)
 
+
+@APP.route('/filmes/search//')
+def list_filmes_vazio():
+    return list_filmes()
+
+@APP.route('/filmes/search/<string:name>/')
+def list_filmes1(name):
+    Text1 = f"Pesquisa : {name}"
+    name = f"%{name}%"
+    filmes = db.execute(
+        '''
+        SELECT * FROM FILM WHERE FilmName LIKE ? ORDER BY FilmName
+        ''',[name]
+        ).fetchall()
+    return render_template('listar_filmes.html', filmes=filmes,Text1 = Text1)
+
+
 @APP.route('/filmes/<string:id_name>')
 def show_filmes(id_name):
     id,name = id_name.split("_")
-    name = name.replace("%20"," ")
     filme = db.execute(
         '''
     SELECT * FROM FILM WHERE FilmId =? and FilmName =?
@@ -145,34 +160,40 @@ def list_nomeados():
     return render_template('listar_nomeados.html',
                            nomeados=nomeados,
                            Text0 = "",
-                           button0 = "Só mostrar Pessoas", bref0 = "/nomeados/filter/nm/",
-                           button1 = "Só mostrar Empresas", bref1= "/nomeados/filter/co/")
+                           button0 = "Só mostrar Pessoas", bref0 = "/nomeados/filter/&&nm/",
+                           button1 = "Só mostrar Empresas", bref1= "/nomeados/filter/&&co/")
 
 @APP.route('/nomeados/filter/<string:filters>/')
 def list_nomeados1(filters):
-    if filters=="nm":
-        nomeados = db.execute(
-            '''
-        SELECT * FROM NOMINEE WHERE NomineeId LIKE 'nm%' ORDER BY Name
+    name, ids = filters.split("&&")
+    Text0 = ""
+    Text1 = ""
+    if name: Text1 = f"Pesquisa : {name}"
+    if ids == "nm":
+        Text0 = "Sem Empresas"
+        button0, bref0 = "Mostrar Todos", f"/nomeados/filter/{name}&&/"
+        button1, bref1 = "Só mostrar Empresas", f"/nomeados/filter/{name}&&co/"
+    elif ids == "co":
+        Text0 = "Só Empresas"
+        button0, bref0 = "Só mostrar Pessoas", f"/nomeados/filter/{name}&&nm"
+        button1, bref1 = "Mostrar Todos", f"/nomeados/filter/{name}&&"
+    else:
+        button0, bref0 = "Só mostrar Pessoas", f"/nomeados/filter/{name}&&nm/",
+        button1, bref1 = "Só mostrar Empresas", f"/nomeados/filter/{name}&&co/"
+        
+    ids = ids+"%"
+    name1 = f"%{name}%"
+    nomeados = db.execute(
         '''
+        SELECT * FROM NOMINEE WHERE NomineeId LIKE ? and Name LIKE ? ORDER BY Name
+        ''',[ids,name1]
         ).fetchall()
-        return render_template('listar_nomeados.html',
-                               nomeados=nomeados,
-                               Text0 = "Sem Empresas",
-                               button0 = "Mostrar Todos",bref0="/nomeados/",
-                               button1 = "Só mostrar Empresas",bref1 = "/nomeados/filter/co/")
-    if filters=="co":
-        nomeados = db.execute(
-            '''
-        SELECT * FROM NOMINEE WHERE NomineeId LIKE 'co%' ORDER BY Name
-        '''
-        ).fetchall()
-        return render_template('listar_nomeados.html',
-                               nomeados=nomeados,
-                               Text0 = "Só Empresas",
-                               button0 = "Só mostrar Pessoas",bref0 = "/nomeados/filter/nm/",
-                               button1 = "Mostrar Todos",bref1="/nomeados/"
-                               )
+    return render_template('listar_nomeados.html',
+                       nomeados=nomeados,
+                       Text0 = Text0,
+                       Text1 = Text1,
+                       button0 = button0,bref0= bref0,
+                       button1 = button1,bref1 = bref1)
 
 
 @APP.route('/nomeados/<string:id>/')
@@ -216,21 +237,36 @@ def list_nomeacoes():
     ).fetchall()
     return render_template('listar_nomeacoes.html',
                            nomeacoes=nomeacoes,
-                           Text0 = "",
-                           button="Mostrar só Vencedores",bref ="/nomeacoes/Winners/")
+                           Text = {},
+                           button="Mostrar só Vencedores",bref ="/nomeacoes/&&Winners/")
 
 @APP.route('/nomeacoes/<string:filters>/')
 def list_nomeacoes1(filters):
-    if filters == "Winners":
+    name,winner = filters.split("&&")
+    Text = {}
+    if name: Text["Text1"] = f"Pesquisa : {name}"
+    name1 = f"%{name}%"
+    if winner == "Winners":
         nomeacoes = db.execute(
             '''
-        SELECT * FROM NOMINATION WHERE Winner='TRUE' ORDER BY CeremonyNumber, ClassName, CategoryName, NomId
-        '''
+        SELECT * FROM NOMINATION WHERE Winner='TRUE' and NominationName LIKE ? ORDER BY CeremonyNumber, ClassName, CategoryName, NomId
+        ''', [name1]
+        ).fetchall()
+        Text["Text0"] = "Vencedores"
+        return render_template('listar_nomeacoes.html',
+                               nomeacoes=nomeacoes,
+                               Text = Text,
+                               button="Mostrar Todos",bref=f"/nomeacoes/{name}&&/")
+    else:
+        nomeacoes = db.execute(
+            '''
+        SELECT * FROM NOMINATION WHERE NominationName LIKE ? ORDER BY CeremonyNumber, ClassName, CategoryName, NomId
+        ''', [name1]
         ).fetchall()
         return render_template('listar_nomeacoes.html',
                                nomeacoes=nomeacoes,
-                               Text0 = "Vencedores",
-                               button="Mostrar Todos",bref="/nomeacoes/")
+                               Text = Text,
+                               button="Mostrar Vencedores",bref=f"/nomeacoes/{name}&&Winners/")
 
 
 @APP.route('/nomeacoes/<int:nomid>/')
