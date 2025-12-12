@@ -139,10 +139,41 @@ def show_filmes(id_name):
 def list_nomeados():
     nomeados = db.execute(
         '''
-SELECT * FROM NOMINEE ORDER BY Name
-'''
+    SELECT * FROM NOMINEE ORDER BY Name
+    '''
     ).fetchall()
-    return render_template('listar_nomeados.html', nomeados=nomeados)
+    return render_template('listar_nomeados.html',
+                           nomeados=nomeados,
+                           Text0 = "",
+                           button0 = "Só mostrar Pessoas", bref0 = "/nomeados/filter/nm/",
+                           button1 = "Só mostrar Empresas", bref1= "/nomeados/filter/co/")
+
+@APP.route('/nomeados/filter/<string:filters>/')
+def list_nomeados1(filters):
+    if filters=="nm":
+        nomeados = db.execute(
+            '''
+        SELECT * FROM NOMINEE WHERE NomineeId LIKE 'nm%' ORDER BY Name
+        '''
+        ).fetchall()
+        return render_template('listar_nomeados.html',
+                               nomeados=nomeados,
+                               Text0 = "Sem Empresas",
+                               button0 = "Mostrar Todos",bref0="/nomeados/",
+                               button1 = "Só mostrar Empresas",bref1 = "/nomeados/filter/co/")
+    if filters=="co":
+        nomeados = db.execute(
+            '''
+        SELECT * FROM NOMINEE WHERE NomineeId LIKE 'co%' ORDER BY Name
+        '''
+        ).fetchall()
+        return render_template('listar_nomeados.html',
+                               nomeados=nomeados,
+                               Text0 = "Só Empresas",
+                               button0 = "Só mostrar Pessoas",bref0 = "/nomeados/filter/nm/",
+                               button1 = "Mostrar Todos",bref1="/nomeados/"
+                               )
+
 
 @APP.route('/nomeados/<string:id>/')
 def show_nomeado(id):
@@ -183,7 +214,24 @@ def list_nomeacoes():
     SELECT * FROM NOMINATION ORDER BY CeremonyNumber, ClassName, CategoryName, NomId
     '''
     ).fetchall()
-    return render_template('listar_nomeacoes.html', nomeacoes=nomeacoes)
+    return render_template('listar_nomeacoes.html',
+                           nomeacoes=nomeacoes,
+                           Text0 = "",
+                           button="Mostrar só Vencedores",bref ="/nomeacoes/Winners/")
+
+@APP.route('/nomeacoes/<string:filters>/')
+def list_nomeacoes1(filters):
+    if filters == "Winners":
+        nomeacoes = db.execute(
+            '''
+        SELECT * FROM NOMINATION WHERE Winner='TRUE' ORDER BY CeremonyNumber, ClassName, CategoryName, NomId
+        '''
+        ).fetchall()
+        return render_template('listar_nomeacoes.html',
+                               nomeacoes=nomeacoes,
+                               Text0 = "Vencedores",
+                               button="Mostrar Todos",bref="/nomeacoes/")
+
 
 @APP.route('/nomeacoes/<int:nomid>/')
 def show_nomeacoes(nomid):
