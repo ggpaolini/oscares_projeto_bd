@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Filmes</h1>
+
+<form name = "nom" action = "javascript:window.open('/filmes/search/'+document.forms['nom'].elements['name'].value+'/','_self')">
+   <input name="name" placeholder="Pesquisar por nome..."/> <input type="submit" value="Procurar"/>
+</form>
+<br>
+<h>{{Text1}}</h>
 <table>
     <tr>
         <th><b>ID</b></th>
