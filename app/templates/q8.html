@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Query 8: Listar todos os indivíduos nomeados pelo filme "The Godfather"</h1>
+
+<table>
+<tr>
+    <th>NomineeId</th>
+    <th>Name</th>
+</tr>
+
+{% for n in nomeados %}
+<tr>
+    <td><a href="/nomeados/{{ n.NomineeId }}/">{{ n.NomineeId }}</a></td>
+    <td><a href="/nomeados/{{ n.NomineeId }}/">{{ n.Name }}</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

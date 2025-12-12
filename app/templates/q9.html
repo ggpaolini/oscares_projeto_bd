@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Query 9: Identificar filmes que venceram todas as categorias em que foram nomeados</h1>
+
+<table>
+<tr>
+    <th>FilmId</th>
+    <th>FilmName</th>
+</tr>
+
+{% for f in filmes %}
+<tr>
+    <td><a href="/filmes/{{ f.FilmId }}_{{ f.FilmName }}">{{ f.FilmId }}</a></td>
+    <td><a href="/filmes/{{ f.FilmId }}_{{ f.FilmName }}">{{ f.FilmName }}</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

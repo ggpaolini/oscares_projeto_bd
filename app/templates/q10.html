@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>
+Query 10: Identificar todos os nomeados (incluindo pessoas e empresas) que tenham ganho 
+prémios em dois anos consecutivos, apresentando o seu identificador, o nome e os dois anos em que venceram.
+</h1>
+
+<table>
+<tr>
+    <th>NomineeId</th>
+    <th>Name</th>
+    <th>Ano 1</th>
+    <th>Ano 2</th>
+</tr>
+
+{% for r in rows %}
+<tr>
+    <td><a href="/nomeados/{{ r.NomineeId }}/">{{ r.NomineeId }}</a></td>
+    <td><a href="/nomeados/{{ r.NomineeId }}/">{{ r.Name }}</a></td>
+    <td>{{ r.Year1 }}</td>
+    <td>{{ r.Year2 }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

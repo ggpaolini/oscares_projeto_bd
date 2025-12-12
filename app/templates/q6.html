@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Query 6: Identificar o Top 5 de Atores/Atrizes com mais vitórias</h1>
+
+<table>
+<tr>
+    <th>NomineeId</th>
+    <th>Name</th>
+    <th>Wins</th>
+</tr>
+
+{% for a in atores %}
+<tr>
+    <td><a href="/nomeados/{{ a.NomineeId }}/">{{ a.NomineeId }}</a></td>
+    <td><a href="/nomeados/{{ a.NomineeId }}/">{{ a.Name }}</a></td>
+    <td>{{ a.Wins }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

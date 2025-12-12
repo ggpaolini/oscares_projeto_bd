@@ -1,3 +1,16 @@
+nav {
+    margin-bottom: 10px;
+}
+
+.queries-menu {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.queries-menu a {
+    margin-left: 6px;
+}
+
 body {
   font-family: Helvetica, arial, sans-serif;
   font-size: 14px;

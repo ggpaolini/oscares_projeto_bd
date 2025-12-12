@@ -1,14 +1,28 @@
 <!doctype html>
-<title>Flask application</title>
+<title>Oscars App</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
   <a href="/">Home</a> 
-  <a href="/categorias/">     Categorias</a> 
-  <a href="/cerimonias/">     Cerimónias</a> 
-  <a href="/classes/">     Classes</a> 
-  <a href="/filmes/">     Filmes</a> 
-  <a href="/nomeacoes/">     Nomeações</a>
-  <a href="/nomeados/">     Nomeados</a>
+  <a href="/categorias/">Categorias</a>
+  <a href="/cerimonias/">Cerimónias</a>
+  <a href="/classes/">Classes</a>
+  <a href="/filmes/">Filmes</a>
+  <a href="/nomeacoes/">Nomeações</a>
+  <a href="/nomeados/">Nomeados</a>
+</nav>
+
+<nav class="queries-menu">
+  <strong>Queries:</strong>
+  <a href="/q1">1</a>
+  <a href="/q2">2</a>
+  <a href="/q3">3</a>
+  <a href="/q4">4</a>
+  <a href="/q5">5</a>
+  <a href="/q6">6</a>
+  <a href="/q7">7</a>
+  <a href="/q8">8</a>
+  <a href="/q9">9</a>
+  <a href="/q10">10</a>
 </nav>
 <section class="content">
   {% block content %}{% endblock %}

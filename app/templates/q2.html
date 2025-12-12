@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Query 2: Listar todas as categorias da classe "Directing";</h1>
+
+<table>
+<tr>
+    <th>ClassName</th>
+    <th>CategoryName</th>
+    <th>CanonicalCategory</th>
+</tr>
+
+{% for c in categorias %}
+<tr>
+    <td><a href="/classes/{{ c.ClassName }}">{{ c.ClassName }}</a></td>
+    <td><a href="/categorias/{{ c.CategoryName }}">{{ c.CategoryName }}</a></td>
+    <td>{{ c.CanonicalCategory }}</td>
+</tr>
+{% endfor %}
+
+</table>
+{% endblock %}
+

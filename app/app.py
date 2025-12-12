@@ -176,7 +176,6 @@ def show_nomeado(id):
         ).fetchall()
     return render_template('mostrar_nomeado.html', nomeado=nomeado, nomeacoes=nomeacoes, filmes= filmes)
 
-
 @APP.route('/nomeacoes/')
 def list_nomeacoes():
     nomeacoes = db.execute(
@@ -209,5 +208,173 @@ def show_nomeacoes(nomid):
         ,[nomid]).fetchall()
     return render_template('mostrar_nomeacoes.html',nomeacao=nomeacao,filmes=filmes,nomeados=nomeados)
     
+# Query 1
+@APP.route('/q1')
+def q1():
+    row = db.execute("SELECT COUNT(*) AS total FROM NOMINATION").fetchone()
+    return render_template("q1.html", total=row["total"])
 
 
+# Query 2
+@APP.route('/q2')
+def q2():
+    categorias = db.execute(
+        "SELECT * FROM CATEGORY WHERE ClassName = ?", ("Directing",)
+    ).fetchall()
+    return render_template("q2.html", categorias=categorias)
+
+
+# Query 3
+@APP.route('/q3')
+def q3():
+    empresas = db.execute(
+        "SELECT * FROM NOMINEE WHERE NomineeId LIKE 'co%'"
+    ).fetchall()
+    return render_template("q3.html", empresas=empresas)
+
+
+# Query 4
+@APP.route('/q4')
+def q4():
+    filmes = db.execute(
+        """
+        SELECT FilmId, FilmName
+        FROM FILM
+        NATURAL JOIN NOMINATION_FILM
+        NATURAL JOIN NOMINATION
+        WHERE CategoryName = 'BEST PICTURE' AND Winner = 'TRUE'
+        """
+    ).fetchall()
+    return render_template("q4.html", filmes=filmes)
+
+
+# Query 5
+@APP.route('/q5')
+def q5():
+    row = db.execute(
+        """
+        SELECT AVG(NumNominees) AS media
+        FROM (
+            SELECT CeremonyNumber, COUNT(*) AS NumNominees
+            FROM NOMINATION
+            GROUP BY CeremonyNumber
+        )
+        """
+    ).fetchone()
+    return render_template("q5.html", media=row["media"])
+
+
+# Query 6
+@APP.route('/q6')
+def q6():
+    atores = db.execute(
+        """
+        SELECT NomineeId, Name, COUNT(*) AS Wins
+        FROM NOMINEE
+        NATURAL JOIN NOMINATION_NOMINEE
+        NATURAL JOIN NOMINATION
+        WHERE Winner = 'TRUE' AND NomineeId NOT LIKE 'co%'
+        GROUP BY NomineeId, Name
+        ORDER BY Wins DESC
+        LIMIT 5
+        """
+    ).fetchall()
+    return render_template("q6.html", atores=atores)
+
+
+# Query 7
+@APP.route('/q7')
+def q7():
+    filmes = db.execute(
+        """
+        SELECT FilmId, FilmName, COUNT(*) AS N_Nomeacoes
+        FROM FILM
+        NATURAL JOIN NOMINATION_FILM
+        NATURAL JOIN NOMINATION
+        GROUP BY FilmId, FilmName, CeremonyNumber
+        ORDER BY N_Nomeacoes DESC
+        """
+    ).fetchall()
+    return render_template("q7.html", filmes=filmes)
+
+
+# Query 8
+@APP.route('/q8')
+def q8():
+    nomeados = db.execute(
+        """
+        SELECT DISTINCT NomineeId, Name
+        FROM NOMINEE
+        NATURAL JOIN NOMINATION_NOMINEE
+        NATURAL JOIN NOMINATION
+        NATURAL JOIN NOMINATION_FILM
+        NATURAL JOIN FILM
+        WHERE FilmName = 'The Godfather'
+        AND NomineeId NOT LIKE 'co%'
+        """
+    ).fetchall()
+    return render_template("q8.html", nomeados=nomeados)
+
+
+# Query 9
+@APP.route('/q9')
+def q9():
+    filmes = db.execute(
+        '''
+SELECT F.FilmId, F.FilmName
+FROM FILM F
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM NOMINATION_FILM NF
+    JOIN NOMINATION N ON N.NomId = NF.NomId
+    WHERE NF.FilmId = F.FilmId
+      AND N.Winner = 'FALSE'
+     
+);'''
+    ).fetchall()
+    #print("teste") - a query é um pouco lenta, esta aqui é mais rapida
+    return render_template("q9.html", filmes=filmes)
+
+
+# Query 10
+@APP.route('/q10')
+def q10():
+    rows = db.execute(
+        """
+        WITH Wins AS (
+            SELECT DISTINCT NomineeId, Name, CeremonyNumber
+            FROM NOMINATION
+            NATURAL JOIN NOMINATION_NOMINEE
+            NATURAL JOIN NOMINEE
+            WHERE Winner = 'TRUE'
+        )
+        SELECT DISTINCT 
+            w1.NomineeId, 
+            w1.Name, 
+            w1.CeremonyNumber AS Year1, 
+            w2.CeremonyNumber AS Year2
+        FROM Wins w1
+        JOIN Wins w2
+            ON w1.NomineeId = w2.NomineeId
+           AND w2.CeremonyNumber = w1.CeremonyNumber + 1
+        ORDER BY w1.NomineeId, w1.CeremonyNumber
+        """
+    ).fetchall()
+    return render_template("q10.html", rows=rows)
+
+"""
+        SELECT FilmId, FilmName
+        FROM FILM
+        WHERE FilmId NOT IN (
+            SELECT NF.FilmId
+            FROM NOMINATION_FILM NF
+            NATURAL JOIN NOMINATION N
+            WHERE NF.FilmId NOT IN (
+                SELECT NF2.FilmId
+                FROM NOMINATION_FILM NF2
+                NATURAL JOIN NOMINATION N2
+                WHERE N2.Winner = 'TRUE'
+                  AND NF2.FilmId = NF.FilmId
+            )
+        )
+        """

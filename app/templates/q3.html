@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Query 3: Listar nomeados que s�o empresas</h1>
+
+<table>
+<tr><th>NomineeId</th><th>Name</th></tr>
+
+{% for e in empresas %}
+<tr>
+    <td><a href="/nomeados/{{ e.NomineeId }}/">{{ e.NomineeId }}</a></td>
+    <td><a href="/nomeados/{{ e.NomineeId }}/">{{ e.Name }}</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
