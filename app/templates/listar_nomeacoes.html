@@ -2,9 +2,16 @@
 {% block content %}
 <h1>Nomeações</h1>
 
+<br>
+<form name = "nom" action = "javascript:window.open('/nomeacoes/'+document.forms['nom'].elements['name'].value+'&&/','_self')">
+   <input name="name" placeholder="Pesquisar por nome..."/> <input type="submit" value="Procurar"/>
+</form>
+<br>
 <a href='{{bref}}'><button>{{button}}</button></a>
 <br><br>
-<h>{{Text0}}</h>
+<h>{{Text.Text1}}</h>
+<br>
+<h>{{Text.Text0}}</h>
 <table>
     <tr>
         <th><b>ID</b></th>
