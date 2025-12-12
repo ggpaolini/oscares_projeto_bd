@@ -108,7 +108,7 @@ SELECT * FROM FILM ORDER BY FilmName
 @APP.route('/filmes/<string:id_name>')
 def show_filmes(id_name):
     id,name = id_name.split("_")
-    name = name.replace("%20"," ").replace("'","''")
+    name = name.replace("%20"," ")
     filme = db.execute(
         '''
     SELECT * FROM FILM WHERE FilmId =? and FilmName =?
